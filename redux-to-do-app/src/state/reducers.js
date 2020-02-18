@@ -30,9 +30,23 @@ export function listReducer(state = initialStateTodoList, action) {
             ...todo,
             completed: !todo.completed
           };
+          
         }
+        
         return todo;
-      })
+      });
+      case types.REMOVE:
+
+            return state.filter((todo,idx) => {
+   
+                //return (todo.completed!==true)
+                if(todo.id === action.payload){
+                    if (!todo.completed) {
+                        return todo
+                    }
+                   state.slice(idx)
+                }
+            });
     default:
       return state
   }

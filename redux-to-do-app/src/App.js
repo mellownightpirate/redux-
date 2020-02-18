@@ -1,6 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addTodo, changeInput, markTodoComplete } from "./state/actionCreators";
+import {
+  addTodo,
+  changeInput,
+  markTodoComplete,
+  removeCompleted
+} from "./state/actionCreators";
 // STEP-9 BRING IN THE ACTION CREATORS
 import "./App.css";
 
@@ -12,7 +17,8 @@ function App({
   // B- callbacks to change state (action creators)
   changeInput,
   addTodo,
-  markTodoComplete
+  markTodoComplete,
+  removeCompleted
   // C- props actually injected by the parent component
 }) {
   // Event listeners (we still need 'em)
@@ -38,13 +44,18 @@ function App({
     markTodoComplete(id);
   };
 
+  const onRemoveCompleted = (completed) => event => {
+    removeCompleted(completed);
+  };
+
   return (
     <div className="App">
       {/* here we can add a new friend */}
       <h4>Add a todo:</h4>
       <form className="form" onSubmit={onSubmit}>
         <input value={formValues.todo} onChange={onChange} name="todo" />
-        <br />
+        <br />        
+        
 
         <input type="submit" />
       </form>
@@ -65,6 +76,8 @@ function App({
             {td.todo}
           </p>
           <button onClick={onMarkTodoComplete(td.id)}>Mark Complete</button>
+          <button onClick={onRemoveCompleted(td.id)}>Clear Completed</button>
+
         </div>
       ))}
     </div>
@@ -84,5 +97,5 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   // object with action creators imported at the top,
-  { addTodo, changeInput, markTodoComplete }
+  { addTodo, changeInput, markTodoComplete, removeCompleted }
 )(App);
