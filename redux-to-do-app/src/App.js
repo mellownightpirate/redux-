@@ -31,9 +31,12 @@ function App({
     });
   };
   const onSubmit = event => {
+    event.preventDefault();
+    if (formValues.todo==="")
+    return
     // use the event to prevent an undesirable reload
     // call an action creator that comes through props
-    event.preventDefault();
+
     // call an action creator that comes through props
     addTodo({
       todo: formValues.todo
@@ -44,8 +47,8 @@ function App({
     markTodoComplete(id);
   };
 
-  const onRemoveCompleted = (completed) => event => {
-    removeCompleted(completed);
+  const onRemoveCompleted = event => {
+    removeCompleted();
   };
 
   return (
@@ -56,9 +59,10 @@ function App({
         <input value={formValues.todo} onChange={onChange} name="todo" />
         <br />        
         
-
+       
         <input type="submit" />
       </form>
+      <button onClick={onRemoveCompleted}>Clear Completed</button>
 
       {/* list of current friends */}
       <h4>Todo List:</h4>
@@ -76,7 +80,7 @@ function App({
             {td.todo}
           </p>
           <button onClick={onMarkTodoComplete(td.id)}>Mark Complete</button>
-          <button onClick={onRemoveCompleted(td.id)}>Clear Completed</button>
+         
 
         </div>
       ))}

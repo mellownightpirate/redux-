@@ -30,9 +30,8 @@ export function markTodoComplete(id) {
   };
 }
 
-export function removeCompleted(id) {
+export function removeCompleted() {
   return {
     type: types.REMOVE,
-    payload: id
   };
 }

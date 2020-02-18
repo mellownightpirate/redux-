@@ -1,28 +1,29 @@
 // STEP-3 CREATE ON REDUCER PER SLICE OF STATE
-import * as types from './actionTypes'
+import * as types from "./actionTypes";
 
-
-const initialStateForm = { todo: ''}
+const initialStateForm = { todo: "" };
 export function formReducer(state = initialStateForm, action) {
-
   switch (action.type) {
     case types.INPUT_CHANGE:
       return {
         ...state,
         [action.payload.inputName]: action.payload.inputValue
-      }
+      };
     case types.ADD_TODO:
-      return initialStateForm
+      return initialStateForm;
     default:
-      return state
+      return state;
   }
 }
 
-const initialStateTodoList = []
+const initialStateTodoList = [];
 export function listReducer(state = initialStateTodoList, action) {
   switch (action.type) {
     case types.ADD_TODO:
-      return state.concat(action.payload)
+      if (action.payload !== "") {
+        return state.concat(action.payload);
+      }
+
     case types.COMPLETED:
       return state.map(todo => {
         if (todo.id === action.payload) {
@@ -30,24 +31,15 @@ export function listReducer(state = initialStateTodoList, action) {
             ...todo,
             completed: !todo.completed
           };
-          
         }
-        
+
         return todo;
       });
-      case types.REMOVE:
-
-            return state.filter((todo,idx) => {
-   
-                //return (todo.completed!==true)
-                if(todo.id === action.payload){
-                    if (!todo.completed) {
-                        return todo
-                    }
-                   state.slice(idx)
-                }
-            });
+    case types.REMOVE:
+      return state.filter(todo => {
+        return todo.completed !== true;
+      });
     default:
-      return state
+      return state;
   }
 }
